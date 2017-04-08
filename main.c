@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define ERR_NO_NUM -1
+#define ERR_NO_MEM -2
 
 
 typedef struct node {
@@ -8,13 +13,14 @@ typedef struct node {
     struct node * next;
 } node_t;
 
-node_t* createLinkedList(int value){
+node_t* createNewLinkedList(int value){
     node_t * head = NULL;
     head = malloc(sizeof(node_t));
     head->value = value;
     head->next =NULL;
     return head;
 }
+
 
 
 
@@ -84,19 +90,49 @@ bool delete(int value,node_t* head){
 
 
 
+
+node_t* createRandomLinkedList(int n){
+
+
+
+    int i;
+    time_t t;
+    int randomNumbers[n];
+
+
+
+    /* Intializes random number generator */
+    srand((unsigned) time(&t));
+
+
+    /* Print 5 random numbers from 0 to 49 */
+    for( i = 0 ; i < n ; i++ )
+    {
+        randomNumbers[i] =rand() % 65535;
+
+    }
+
+
+
+
+
+    node_t* head = createNewLinkedList(randomNumbers[0]);
+
+    for(int i=1;i<100;i++){
+        insert(head,randomNumbers[i]);
+    }
+    return head;
+
+}
+
+
+
 int main() {
 
-
-    node_t * head = createLinkedList(1434);
-
-    insert(head,2344);
-    insert(head,33434);
-
+    node_t* head =createRandomLinkedList(1000);
     printLinkedList(head);
 
-    printf("%d \n",delete(1434,head));
 
-    printLinkedList(head);
 
 
     return 0;

@@ -13,4 +13,8 @@ malloc.h
 -
 stdbool.h
 -
+stdlib.h
+-
+time.h
+-
 
