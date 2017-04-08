@@ -18,7 +18,7 @@ node_t* createLinkedList(int value){
 
 
 
-void addNode(node_t* head, int value){
+void insert(node_t* head, int value){
     node_t* current =head;
     while(current->next!=NULL){
         current = current->next;
@@ -50,19 +50,53 @@ bool member(int value,node_t* head){
     return false;
 
 }
+bool delete(int value,node_t* head){
+    if(head->value==value){
+        if(head->next==NULL){
+            head->value = NULL;
+            return 1;
+        }
+        else{
+            head->value = head->next->value;
+            head->next = head->next->next;
+            return 1;
+        }
+    }
+    else{
+        node_t* current = head->next;
+        node_t* previous =head;
+
+        while(current->value!=value && current->next!=NULL){
+            current =current->next;
+            previous= previous->next;
+        }
+        if(current->value==value){
+            previous->next = current->next;
+            return 1;
+        }
+        else{
+            return 0;
+        }
+
+    }
+
+}
+
+
 
 int main() {
 
 
     node_t * head = createLinkedList(1434);
 
-    addNode(head,2344);
-    addNode(head,33434);
+    insert(head,2344);
+    insert(head,33434);
 
     printLinkedList(head);
 
-    printf("%d \n",member(231,head));
-    printf("%d \n",member(33434,head));
+    printf("%d \n",delete(1434,head));
+
+    printLinkedList(head);
 
 
     return 0;
