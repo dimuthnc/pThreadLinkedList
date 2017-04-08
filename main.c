@@ -95,7 +95,7 @@ node_t* createRandomLinkedList(int n){
 
 
 
-    int i;
+    int i,j,num;
     time_t t;
     int randomNumbers[n];
 
@@ -104,17 +104,21 @@ node_t* createRandomLinkedList(int n){
     /* Intializes random number generator */
     srand((unsigned) time(&t));
 
+    bool isValueTaken[65535];
 
-    /* Print 5 random numbers from 0 to 49 */
-    for( i = 0 ; i < n ; i++ )
-    {
-        randomNumbers[i] =rand() % 65535;
-
+    for( j = 0 ; j < 65535 ; j++ ){
+        isValueTaken[j]=0;
     }
+    i=0;
+    while(i<n){
+        num =rand() % 65535;
+        while(isValueTaken[num]){
+            num =rand() % 65535;
+        }
 
-
-
-
+        randomNumbers[i] =num;
+        i++;
+    }
 
     node_t* head = createNewLinkedList(randomNumbers[0]);
 
