@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <stdbool.h>
-#include <stdlib.h>
-#include <time.h>
 
-#define ERR_NO_NUM -1
-#define ERR_NO_MEM -2
+#include <time.h>
+#include <pthread.h>
+
+int thread_count = 5;
 
 
 typedef struct node {
@@ -129,6 +129,11 @@ node_t* createRandomLinkedList(int n){
 
 }
 
+void* Hello(void* rank){
+    long my_rank =(long) rank;
+    printf("hello from thread %d of %d \n",my_rank,thread_count);
+}
+
 
 
 int main() {
@@ -136,7 +141,24 @@ int main() {
     node_t* head =createRandomLinkedList(1000);
     printLinkedList(head);
 
+    long thread;
+    pthread_t* thread_handles;
 
+    thread_handles = malloc(thread_count*sizeof(pthread_t));
+
+    for(thread=0;thread<thread_count;thread++){
+        pthread_create(&thread_handles[thread],NULL,Hello,(void*) thread);
+
+    }
+
+    printf("Hello from main thread \n");
+
+    for(thread=0;thread<thread_count;thread++){\
+        pthread_join(thread_handles[thread],NULL);
+
+    }
+
+    free(thread_handles);
 
 
     return 0;
